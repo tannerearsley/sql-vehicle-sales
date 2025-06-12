@@ -19,7 +19,7 @@ FROM sales_project.sales_staging
 GROUP BY order_number, quantity, price_per, order_line_num, sales
 HAVING COUNT(*) > 1;
 
--- >>> Now we remove the two affected pairs.
+-- >>> Now we remove the two affected pairs
 DELETE FROM sales_project.sales_staging
 WHERE order_number IN (
     SELECT order_number FROM (
@@ -70,11 +70,13 @@ SELECT *
 FROM sales_staging;
 
 -- >>> Now, let's solve some hypothetical problems by running various queries
+-- All queries going forward do not alter, delete, or create in any capacity
 
 -- >>> 1: Which product type (product_name) yielded the highest sales over all time?
 -- Let's see which product types are sold
 SELECT DISTINCT product_name
 FROM sales_staging;
+
 --  We can now rank these products by total sales $ earned
 SELECT product_name, ROUND(SUM(sales),2) AS sales_sum, 
 RANK () OVER(ORDER BY SUM(sales) DESC) AS sales_ranked
@@ -93,7 +95,7 @@ LIMIT 2;
 
 -- >>> 3: Next, let's compare monthly sales to the monthly average in 2003, finding the difference in each month's sales
 WITH average_table as (
-	SELECT MONTH(order_date) as month_orders, (SUM(sales)) as total_sales
+	SELECT MONTH(order_date) AS month_orders, (SUM(sales)) AS total_sales
 	FROM sales_staging
     WHERE YEAR(order_date) = 2003
 	GROUP BY MONTH(order_date)
@@ -103,7 +105,7 @@ SELECT month_orders,
   ROUND((SELECT AVG(total_sales) FROM average_table), 2) AS average_monthly_sales,
   ROUND(total_sales - (SELECT AVG(total_sales) FROM average_table),2) AS sales_variance
 FROM average_table
-ORDER BY month_orders asc;
+ORDER BY month_orders ASC;
 --  November was easily the top performance month
 
 -- >>> 4: Which customers are buying above MSRP? If unit price > MSRP, that customer must really want that product
@@ -112,6 +114,7 @@ ROUND((price_per - msrp),2) AS seller_net
 FROM sales_staging
 WHERE (price_per - msrp) > 0
 ORDER BY seller_net DESC;
+
 -- Scrolling through this list, we see Vintage and Classic Cars are being purchased well above MSRP
 -- But now, who's purchasing above MSRP the most often?
 SELECT cust_name,
@@ -137,7 +140,8 @@ product_name,
 SUM(CASE WHEN YEAR(order_date) = 2003 THEN sales ELSE 0 END) AS sales_2003,
 SUM(CASE WHEN YEAR(order_date) = 2004 THEN sales ELSE 0 END) AS sales_2004
 FROM sales_staging
-GROUP BY product_name)
+GROUP BY product_name
+)
 SELECT product_name, 
 ROUND(sales_2003,2) AS sales_2003, 
 ROUND(sales_2004,2) AS sales_2004,
@@ -145,10 +149,10 @@ ROUND(sales_2004 - sales_2003,2) AS sales_increase
 FROM sales0304
 HAVING sales_increase > 100000
 ORDER BY sales_increase DESC;
-  -- 5 of 7 products made the cut
+-- 5 of 7 products made the cut
   
   
-  -- >>> 7: Last One. Who are the top 5 most loyal customers?
+-- >>> 7: Last One. Who are the top 5 most loyal customers?
 SELECT cust_name,
 COUNT(DISTINCT order_number) AS order_instances,
 ROUND(SUM(sales), 2) AS total_sales,
@@ -157,7 +161,7 @@ FROM sales_staging
 GROUP BY cust_name
 ORDER BY order_instances DESC
 LIMIT 5;
-  -- This can help us focus our retention strategy on these 5 companies. 
-  -- Interesting to note that Euro Shopping Channel purchased not only the most often over MSRP, but had the most instances of purchase as well!
+-- This can help us focus our retention strategy on these 5 companies. 
+-- Interesting to note that Euro Shopping Channel purchased not only the most often over MSRP, but had the most instances of purchase as well!
   
-  -- >>> Thank you if you read through this whole thing! This is my first SQL project. I hope it did not disappoint!
+-- >>> Thank you if you read through this whole thing! This is my first SQL project. I hope it did not disappoint!
