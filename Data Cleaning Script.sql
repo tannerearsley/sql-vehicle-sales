@@ -3,7 +3,8 @@
 -- Created 6/9/2025
 -- 
 -- In this project, I will be joining two separate sales tables, combing for duplicate/null values, removing unnecessary columns, and changing data types to prepare for analysis
--- Then I will 
+-- Then I will perform analysis upon the resultant table
+-- Queries will outline top buyers, locations with greatest product sales, and compare sales figures against averages and previous dates
 
 -- >>> I begin with a inner join of the customer and info tables, creating one full table for staging and further manipulation
 CREATE TABLE sales_project.sales_staging
