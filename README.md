@@ -1,2 +1,15 @@
 # vehicle-sales-sql
-Vehicle Sales Analysis: SQL data cleaning and manipulation
+-- SQL Project #1: Vehicle Sales Analysis: SQL Data Cleaning and Manipulation
+-- By Tanner Earsley
+-- Created 6/9/2025
+-- 
+-- In this project, I will be joining two separate sales tables, combing for duplicate/null values, removing unnecessary columns, and changing data types to prepare for analysis.
+-- Then I will perform analysis upon the resultant table.
+-- Queries will outline top buyers, locations with greatest product sales, and compare sales figures against averages and previous dates, and more!
+
+Specifically in this project, each query is meant to be ran separately and distinctly, in order to see the changes made and ensure proper execution order.
+
+-->>> Indicates the start of a new query or collection of queries, so it should be easy to distinguish where each step of the process begins and ends.
+
+Data Analysis is separated by number into 7 parts, denoted -- >>> #:
+Each # Solve a problem determined by the proceeding comment.
