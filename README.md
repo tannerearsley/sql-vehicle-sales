@@ -1,5 +1,5 @@
 # vehicle-sales-sql
-- Vehicle Sales Analysis: SQL Data Cleaning and Manipulation  
+Vehicle Sales Analysis: SQL Data Cleaning and Manipulation  
 - By Tanner Earsley  
 - Created 6/9/2025
 
